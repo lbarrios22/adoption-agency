@@ -23,7 +23,7 @@ def home():
 def view_pet(pet_id):
 
     pet = Pet.query.get(pet_id)
-    form = EditPetForm()
+    form = EditPetForm(obj=pet)
 
     if form.validate_on_submit():
         pet.photo_url = form.photo_url.data
