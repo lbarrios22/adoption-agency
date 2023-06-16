@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %} {{pet.name}}'s page {% endblock %}
+
+{% block content %}
+
+<div class="my-5">
+    <div class="card" style='width: 1000px;'>
+        {% if pet.photo_url %}
+        <img src="{{pet.photo_url}}">
+        {% else %}
+        <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+            width='1000px' height='500px'>
+        {% endif %}
+        <h1 class='card-title mx-4'>{{pet.name}}</h1>
+        <p class="card-text mx-4">This is some information about {{pet.name}}!</p>
+        <ul class='list-group list-group-flush'>
+            <li class="list-group-item">Species: {{pet.species}}</li>
+            <li class="list-group-item">Age: {{pet.age}}</li>
+            {% if pet.notes %}
+            <li class="list-group-item">Notes: {{pet.notes}}</li>
+            {% else %}
+            <li class="list-group-item">No current notes</li>
+            {% endif %}
+            {% if pet.available %}
+            <li class="list-group-item">Pet is available!</li>
+            {% else %}
+            <li class="list-group-item">Pet is not available</li>
+            {% endif %}
+
+            <form class='card-text mx-4' method='POST'>
+                {{ form.hidden_tag() }}
+
+                {% for field in form
+                if field.widget.input_type != 'hidden'%}
+
+
+                {% if field.name != 'available'%}
+                <div class="col-sm-7">
+                    <p>{{field.label(class_='my-3')}}
+                        {{field(class_='form-control')}}</p>
+                    {% for err in field.errors %}
+                    <p>{{err}}</p>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+
+                <p>{{field.label}} {{field}}</p>
+
+                {% endif %}
+
+                {% endfor %}
+                <button class='btn btn-success btn-lg my-3'>Confirm Edit</button>
+            </form>
+        </ul>
+    </div>
+
+</div>
+
+{% endblock %}
